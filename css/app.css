@@ -1,0 +1,388 @@
+:root{
+ --bg:#050b10;--panel:#0a171f;--panel2:#10232d;--line:#183846;--text:#ecfaff;
+ --muted:#84a7b6;--cyan:#00d9ff;--cyan2:#66ecff;--ok:#39ffc2;--danger:#ff657a
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}
+button{min-height:38px;color:var(--text);background:#122833;border:1px solid #284b5b;border-radius:8px;padding:8px 10px;cursor:pointer;touch-action:manipulation}
+button:hover{border-color:var(--cyan)}
+button.primary{background:#0b6078;border-color:var(--cyan);font-weight:700}
+button.danger{border-color:#7b3440;color:#ffd7de}
+button.full{width:100%;margin-top:7px}
+.app-shell{height:100%;display:grid;grid-template-columns:300px 1fr;background:#000}
+.control-panel{height:100%;overflow:auto;background:#07131a;border-right:1px solid #17313f;padding:10px}
+.brand-block{display:flex;align-items:center;gap:10px;padding:4px 4px 12px}
+.brand-logo-main{width:46px;height:46px;object-fit:cover;border-radius:10px}
+.brand-block h1{margin:0;font-size:16px;letter-spacing:.4px}
+.brand-block p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.mobile-top-actions{display:flex;justify-content:flex-end;gap:6px;margin:0 0 9px 0}
+.panel{background:#0b1a23;border:1px solid #193947;border-radius:11px;padding:10px;margin-bottom:9px}
+.panel.compact{padding:10px}
+.panel h2{font-size:11.5px;letter-spacing:.7px;margin:0 0 8px;color:var(--cyan2)}
+.panel-head{display:flex;justify-content:space-between;align-items:center}
+.panel-head h2{margin:0}
+button.mini{min-height:32px;padding:4px 8px;font-size:11px}
+.panel label{display:block;color:#bad1dc;font-size:11px;margin:8px 0 5px}
+.panel input[type=range]{width:100%;height:28px}
+.file-button{display:block;text-align:center;padding:10px;border:1px dashed #2c5c6f;border-radius:8px;color:var(--cyan2)!important;cursor:pointer;background:#0b202b}
+.file-button input{display:none}
+.status-card{margin:8px 0;padding:8px;border-radius:8px;background:#08151c;border:1px solid #173441;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.button-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.button-row button{padding:7px 4px;font-size:10.5px}
+.zone-list{display:grid;gap:6px;max-height:180px;overflow:auto;margin-top:8px}
+.zone-item{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px;border:1px solid #1c3a48;border-radius:8px;background:#08171f;cursor:pointer;touch-action:manipulation}
+.zone-item.active{border-color:var(--cyan);background:#0d2632;box-shadow:inset 3px 0 0 var(--cyan)}
+.zone-name{font-size:11px;font-weight:700}.zone-meta{font-size:9.5px;color:var(--muted);margin-top:2px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zone-badge{font-size:9px;border:1px solid #285063;border-radius:999px;padding:3px 6px}
+.output-panel{min-width:0;min-height:0;background:#000;display:flex}
+.stage-host{flex:1;min-width:0;min-height:0;display:flex;align-items:stretch;justify-content:stretch;background:#000}
+.stage{position:relative;width:100%;height:100%;background:#000;overflow:hidden}
+#glCanvas,#gridCanvas,#handleLayer{position:absolute;inset:0;width:100%;height:100%}
+#gridCanvas{pointer-events:none}#handleLayer{pointer-events:none}
+.handle{position:absolute;width:24px;height:24px;border-radius:50%;padding:0;border:2px solid white;transform:translate(-50%,-50%);z-index:10;pointer-events:auto;touch-action:none}
+.handle.active{background:white!important;box-shadow:0 0 0 7px rgba(0,217,255,.14)}
+.empty-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;pointer-events:none}
+.empty-hint h3{font-size:15px;color:#d7f5ff;margin:10px 0 3px}.empty-hint p{font-size:12px}
+.crosshair{width:44px;height:44px;border:1px solid #28566a;border-radius:50%}
+.setup-btn{font-weight:700}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:grid;place-items:center;padding:14px}
+.modal-backdrop[hidden]{display:none}
+.settings-modal{width:min(520px,94vw);background:#0b1821;border:1px solid #285066;border-radius:14px;overflow:hidden}
+.settings-titlebar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #1d3a49;background:#0d202a}
+.settings-titlebar strong{display:block;font-size:13px}.settings-titlebar span{display:block;font-size:11px;color:#86a9b8;margin-top:3px}
+.close-btn{font-size:22px;line-height:1;width:38px;height:38px;padding:0}
+.settings-body{padding:16px;display:grid;gap:14px}
+.settings-body label{display:grid;gap:7px;font-size:12px;color:#bed4dd}
+.settings-body input[type=text],.settings-body select{width:100%;background:#09141b;color:#ecfaff;border:1px solid #254554;border-radius:8px;padding:10px}
+.check-row{display:flex!important;align-items:center;gap:8px!important}
+.settings-note{font-size:11px;color:#86a9b8;background:#08131b;border:1px solid #1b3542;border-radius:8px;padding:9px}
+.settings-actions{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid #1d3a49;background:#09151c}
+body.full-output .control-panel{display:none}
+body.full-output .app-shell{display:block}
+body.full-output .output-panel{width:100vw;height:100vh}
+body.full-output .stage-host{width:100vw;height:100vh}
+body.full-output #gridCanvas,body.full-output #handleLayer{display:none}
+
+/* Điện thoại / tablet */
+@media (max-width:900px){
+  html,body{overflow:auto}
+  .app-shell{min-height:100%;height:auto;display:block}
+  .control-panel{height:auto;overflow:visible;border-right:0;border-bottom:1px solid #17313f}
+  .output-panel{height:56vh;min-height:360px}
+  .brand-block{padding-bottom:8px}
+  .panel{margin-bottom:7px}
+  .zone-list{max-height:130px}
+  button{min-height:44px;font-size:12px}
+  .button-row button{font-size:11px;min-height:44px}
+  .handle{width:32px;height:32px}
+}
+@media (max-width:520px){
+  .control-panel{padding:8px}
+  .brand-logo-main{width:42px;height:42px}
+  .brand-block h1{font-size:15px}
+  .mobile-top-actions{position:sticky;top:0;z-index:50;background:#07131a;padding:5px 0}
+  .output-panel{height:52vh;min-height:300px}
+}
+
+
+/* V1.1.5 - Nút công cụ gọn hơn */
+.top-tool-btn{
+  width:auto;
+  min-width:0;
+  min-height:34px;
+  height:34px;
+  padding:0 12px;
+  font-size:11px;
+  line-height:32px;
+  border-radius:7px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+/* V1.1.5 - Sửa lỗi nút điều khiển góc bị kéo dọc bởi CSS button chung */
+.handle{
+  min-width:0 !important;
+  min-height:0 !important;
+  width:18px !important;
+  height:18px !important;
+  padding:0 !important;
+  margin:0 !important;
+  line-height:0 !important;
+  border-radius:50% !important;
+  border:2px solid #fff !important;
+  box-sizing:border-box !important;
+  transform:translate(-50%,-50%) !important;
+  touch-action:none !important;
+}
+.handle.active{
+  width:20px !important;
+  height:20px !important;
+}
+
+/* Điện thoại: lớn hơn vừa đủ để chạm, vẫn giữ hình tròn */
+@media (max-width:900px){
+  .top-tool-btn{
+    min-height:38px;
+    height:38px;
+    padding:0 11px;
+    font-size:11px;
+  }
+  .handle{
+    width:28px !important;
+    height:28px !important;
+  }
+  .handle.active{
+    width:30px !important;
+    height:30px !important;
+  }
+}
+@media (max-width:520px){
+  .mobile-top-actions{
+    justify-content:flex-start;
+    gap:6px;
+    padding:4px 0 6px;
+  }
+  .top-tool-btn{
+    min-height:40px;
+    height:40px;
+    padding:0 12px;
+    font-size:11px;
+  }
+}
+
+/* V1.1.7 - Vùng chiếu không resize khi ẩn/hiện UI */
+.app-shell{
+  position:relative !important;
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  overflow:hidden !important;
+  background:#000 !important;
+}
+.output-panel{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background:#000 !important;
+  display:block !important;
+  z-index:1 !important;
+}
+.stage-host{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+.stage{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+}
+.control-panel{
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  bottom:0 !important;
+  width:300px !important;
+  height:100% !important;
+  z-index:50 !important;
+  overflow:auto !important;
+  background:rgba(7,19,26,.97) !important;
+  border-right:1px solid #17313f !important;
+  padding:10px !important;
+  transition:opacity .14s ease,transform .14s ease !important;
+}
+body.ui-hidden .control-panel{
+  opacity:0 !important;
+  transform:translateX(-100%) !important;
+  pointer-events:none !important;
+}
+body.ui-hidden #gridCanvas,
+body.ui-hidden #handleLayer{
+  display:none !important;
+}
+.ui-toggle-hint{
+  display:none;
+  position:absolute;
+  left:12px;
+  top:12px;
+  z-index:60;
+  pointer-events:none;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:10px;
+  color:rgba(255,255,255,.42);
+  background:rgba(0,0,0,.18);
+}
+body.ui-hidden .ui-toggle-hint{display:block}
+
+/* Nút trực tiếp trên từng khung */
+.zone-item{
+  gap:6px !important;
+}
+.zone-main{
+  min-width:0;
+  flex:1;
+}
+.zone-actions{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex:0 0 auto;
+}
+.zone-action{
+  min-height:26px !important;
+  height:26px !important;
+  padding:0 7px !important;
+  font-size:9px !important;
+  line-height:24px !important;
+  border-radius:6px !important;
+}
+.zone-action.delete{
+  color:#ffb6c2 !important;
+  border-color:#6a2d39 !important;
+  background:#261219 !important;
+}
+
+/* Không dùng CSS fullscreen cũ */
+body.full-output .control-panel,
+body.full-output .app-shell,
+body.full-output .output-panel,
+body.full-output .stage-host,
+body.full-output #gridCanvas,
+body.full-output #handleLayer{
+  all:unset;
+}
+
+@media (max-width:900px){
+  html,body{
+    overflow:hidden !important;
+    width:100% !important;
+    height:100% !important;
+  }
+  .app-shell{
+    height:100% !important;
+    min-height:0 !important;
+  }
+  .output-panel{
+    height:100% !important;
+    min-height:0 !important;
+  }
+  .control-panel{
+    width:min(86vw,320px) !important;
+  }
+}
+
+/* V1.1.8 - 4 nút góc luôn nhìn thấy, kể cả dưới panel */
+#handleLayer{
+  z-index:80 !important;
+  pointer-events:none !important;
+}
+.handle{
+  z-index:90 !important;
+  pointer-events:auto !important;
+}
+
+/* Panel vẫn nằm trên nội dung, nhưng dưới các nút góc */
+.control-panel{
+  z-index:50 !important;
+}
+
+/* Khi ẩn UI thì ẩn luôn lưới + tay nắm */
+body.ui-hidden #gridCanvas,
+body.ui-hidden #handleLayer{
+  display:none !important;
+}
+
+/* Hint rất nhẹ, không cản thao tác */
+.ui-toggle-hint{
+  pointer-events:none !important;
+  z-index:95 !important;
+}
+
+/* V1.1.9 - sửa stacking context để 4 vòng góc có thể nổi trên panel */
+.output-panel{
+  z-index:auto !important;
+}
+.stage-host,
+.stage{
+  z-index:auto !important;
+}
+#glCanvas{
+  z-index:1 !important;
+}
+#gridCanvas{
+  z-index:20 !important;
+}
+#handleLayer{
+  z-index:100 !important;
+  pointer-events:none !important;
+}
+.handle{
+  z-index:101 !important;
+  pointer-events:auto !important;
+}
+.control-panel{
+  z-index:50 !important;
+}
+
+/* Khi ẩn giao diện: không resize, chỉ giấu panel + công cụ chỉnh */
+body.ui-hidden .control-panel{
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:translateX(-100%) !important;
+  pointer-events:none !important;
+}
+body.ui-hidden #gridCanvas,
+body.ui-hidden #handleLayer{
+  display:none !important;
+}
+
+/* V1.1.10 - tay nắm di chuyển cả khung */
+.move-handle{
+  position:absolute !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  width:28px !important;
+  height:28px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border-radius:50% !important;
+  border:2px solid rgba(255,255,255,.95) !important;
+  background:rgba(0,217,255,.88) !important;
+  color:#001018 !important;
+  transform:translate(-50%,-50%) !important;
+  z-index:102 !important;
+  pointer-events:auto !important;
+  touch-action:none !important;
+  font-size:16px !important;
+  line-height:24px !important;
+  font-weight:900 !important;
+  box-shadow:0 0 0 5px rgba(0,217,255,.12) !important;
+  cursor:move !important;
+}
+.move-handle.dragging{
+  width:32px !important;
+  height:32px !important;
+  background:#fff !important;
+  color:#003847 !important;
+}
+@media (max-width:900px){
+  .move-handle{
+    width:36px !important;
+    height:36px !important;
+    font-size:20px !important;
+    line-height:32px !important;
+  }
+}
+body.ui-hidden .move-handle{
+  display:none !important;
+}

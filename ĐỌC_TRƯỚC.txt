@@ -1,0 +1,30 @@
+GPP CĂN CHIẾU V1.1.10 – DOUBLECLICK + CENTER MOVE FIX
+================================================================
+
+ĐÃ RÀ SOÁT NGUYÊN NHÂN BẤM ĐÚP:
+- V1.1.9 tự đếm pointerup + thời gian + khoảng cách + target.
+- Cơ chế này không ổn định trên Cốc Cốc/Chrome khi sự kiện đi qua nhiều lớp canvas/overlay.
+- V1.1.10 đổi sang:
+  + PC: dùng click.detail === 2 của trình duyệt.
+  + Điện thoại: dùng bộ đếm 2 chạm riêng.
+
+CÁCH ẨN / HIỆN:
+- PC: bấm đúp vùng chiếu màu đen.
+- Điện thoại: chạm 2 lần nhanh.
+- Khi UI đang hiện, thao tác trong panel/nút kéo không kích hoạt ẩn giao diện.
+- Nút ẨN GIAO DIỆN vẫn hoạt động trực tiếp.
+
+TÍNH NĂNG MỚI – DI CHUYỂN CẢ KHUNG:
+- Có một nút ✥ ở chính giữa khung đang chọn.
+- Giữ nút ✥ và kéo:
+  + cả 4 góc di chuyển cùng lúc,
+  + hình dạng khung không thay đổi,
+  + phối cảnh không thay đổi,
+  + không cho toàn bộ khung chạy ra ngoài vùng chiếu.
+- Trên điện thoại nút giữa tự lớn hơn để dễ chạm.
+
+GIỮ NGUYÊN:
+- 4 nút góc chỉnh phối cảnh.
+- Nhiều khung.
+- HIỆN/ẨN/XÓA từng khung.
+- Ẩn UI không resize vùng chiếu.
