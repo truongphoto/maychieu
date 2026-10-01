@@ -1,30 +1,30 @@
-GPP CĂN CHIẾU V1.1.10 – DOUBLECLICK + CENTER MOVE FIX
-================================================================
+GPP CĂN CHIẾU V1.1.11 – CÀI LỐI TẮT
+=======================================
 
-ĐÃ RÀ SOÁT NGUYÊN NHÂN BẤM ĐÚP:
-- V1.1.9 tự đếm pointerup + thời gian + khoảng cách + target.
-- Cơ chế này không ổn định trên Cốc Cốc/Chrome khi sự kiện đi qua nhiều lớp canvas/overlay.
-- V1.1.10 đổi sang:
-  + PC: dùng click.detail === 2 của trình duyệt.
-  + Điện thoại: dùng bộ đếm 2 chạm riêng.
+BỔ SUNG
+- Icon Windows .ICO từ logo trắng.
+- CÀI_ĐẶT_LỐI_TẮT.cmd
+- GỠ_LỐI_TẮT.cmd
 
-CÁCH ẨN / HIỆN:
-- PC: bấm đúp vùng chiếu màu đen.
-- Điện thoại: chạm 2 lần nhanh.
-- Khi UI đang hiện, thao tác trong panel/nút kéo không kích hoạt ẩn giao diện.
-- Nút ẨN GIAO DIỆN vẫn hoạt động trực tiếp.
+CÁCH CÀI
+1. Giải nén thư mục phần mềm vào ổ E: hoặc F:.
+2. Giữ nguyên vị trí thư mục sau khi cài lối tắt.
+3. Bấm đúp CÀI_ĐẶT_LỐI_TẮT.cmd.
+4. Windows tạo:
+   - GPP Căn Chiếu ngoài Desktop.
+   - GPP Căn Chiếu trong Start Menu.
+5. Lối tắt dùng icon logo trắng.
 
-TÍNH NĂNG MỚI – DI CHUYỂN CẢ KHUNG:
-- Có một nút ✥ ở chính giữa khung đang chọn.
-- Giữ nút ✥ và kéo:
-  + cả 4 góc di chuyển cùng lúc,
-  + hình dạng khung không thay đổi,
-  + phối cảnh không thay đổi,
-  + không cho toàn bộ khung chạy ra ngoài vùng chiếu.
-- Trên điện thoại nút giữa tự lớn hơn để dễ chạm.
+CÁCH MỞ
+- Bấm icon GPP Căn Chiếu ngoài Desktop.
+- Ứng dụng mở bằng Microsoft Edge ở chế độ ứng dụng, không hiện thanh địa chỉ thông thường.
 
-GIỮ NGUYÊN:
-- 4 nút góc chỉnh phối cảnh.
-- Nhiều khung.
-- HIỆN/ẨN/XÓA từng khung.
-- Ẩn UI không resize vùng chiếu.
+QUAN TRỌNG
+- Không chép toàn bộ phần mềm vào ổ C.
+- Chỉ shortcut rất nhỏ nằm trong Desktop/Start Menu.
+- Phần mềm vẫn chạy từ thư mục bạn đặt ở E: hoặc F:.
+- Nếu di chuyển thư mục phần mềm, hãy chạy lại CÀI_ĐẶT_LỐI_TẮT.cmd.
+
+GỠ LỐI TẮT
+- Chạy GỠ_LỐI_TẮT.cmd.
+- Chỉ xóa shortcut, không xóa phần mềm.
