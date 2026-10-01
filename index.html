@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="GPP Căn Chiếu">
 
-  <title>GPP Căn Chiếu V1.2.0</title>
+  <title>GPP Căn Chiếu V1.2.2</title>
 
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" href="assets/icon-192.png">
@@ -19,6 +19,11 @@
 <body>
 <div class="app-shell">
   <aside class="control-panel">
+    <div class="mobile-sheet-head">
+      <strong id="mobileSheetTitle">ĐIỀU KHIỂN</strong>
+      <button id="btnCloseMobileSheet" class="mobile-sheet-close" type="button">×</button>
+    </div>
+
     <div class="brand-block">
       <img src="assets/logo_trang.png" alt="Logo GPP" class="brand-logo-main">
       <div>
@@ -33,15 +38,24 @@
       <button id="btnHideUI" class="top-tool-btn primary">ẨN GIAO DIỆN</button>
     </div>
 
-    <section class="panel">
+    <section class="panel" data-mobile-panel="zones">
       <div class="panel-head">
         <h2>KHUNG CHIẾU</h2>
         <button id="btnAddZone" class="mini primary">+ THÊM</button>
       </div>
+      
+      <div class="shape-create-tools">
+        <button id="toolQuad" class="shape-tool active" type="button">TỨ GIÁC</button>
+        <button id="toolCircle" class="shape-tool" type="button">TRÒN</button>
+      </div>
+      <div id="shapeToolHint" class="shape-tool-hint">
+        Tứ giác: nhấn giữ rồi kéo 1 ngón trên vùng chiếu.
+      </div>
       <div id="zoneList" class="zone-list"></div>
+
     </section>
 
-    <section class="panel">
+    <section class="panel" data-mobile-panel="source">
       <h2>NGUỒN</h2>
       <label class="file-button">
         CHỌN ẢNH / VIDEO
@@ -55,7 +69,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel" data-mobile-panel="adjust">
       <h2>HIỆU CHỈNH</h2>
       <label>Độ sáng
         <input id="brightness" type="range" min="50" max="150" value="100">
@@ -72,7 +86,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel" data-mobile-panel="more">
       <h2>THỨ TỰ & CẤU HÌNH</h2>
       <div class="button-row">
         <button id="btnLayerUp">ĐƯA LÊN</button>
@@ -94,6 +108,7 @@
         <canvas id="glCanvas"></canvas>
         <canvas id="gridCanvas"></canvas>
         <div id="handleLayer"></div>
+        <div id="shapePreview" class="shape-preview" hidden></div>
 
         <div id="emptyHint" class="empty-hint">
           <div class="crosshair"></div>
@@ -103,6 +118,15 @@
       </div>
     </div>
   </main>
+
+  <nav class="mobile-dock" aria-label="Điều khiển nhanh">
+    <button type="button" data-mobile-open="zones"><span>▦</span><b>KHUNG</b></button>
+    <button type="button" data-mobile-open="source"><span>▶</span><b>NGUỒN</b></button>
+    <button type="button" data-mobile-open="adjust"><span>◇</span><b>CHỈNH</b></button>
+    <button type="button" data-mobile-open="more"><span>⋯</span><b>KHÁC</b></button>
+    <button type="button" id="btnMobileHideUi" class="mobile-hide-btn"><span>▣</span><b>ẨN</b></button>
+  </nav>
+
 </div>
 
 <div id="settingsModal" class="modal-backdrop" hidden>

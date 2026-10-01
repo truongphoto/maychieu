@@ -227,3 +227,334 @@ body.ui-hidden .modal-backdrop{
   .handle.active{width:30px!important;height:30px!important}
   .move-handle{width:36px!important;height:36px!important;font-size:19px!important}
 }
+
+
+/* ==========================================================
+   V1.2.1 - MOBILE COMPACT UI
+   Mục tiêu: vùng chiếu luôn full màn hình, điều khiển chỉ nổi
+   tạm thời và chỉ mở đúng nhóm đang dùng.
+   ========================================================== */
+
+.mobile-dock,
+.mobile-sheet-head{
+  display:none;
+}
+
+@media (max-width:900px){
+  /* Vùng chiếu luôn giữ nguyên 100% màn hình */
+  .app-shell,
+  .output-panel,
+  .stage-host,
+  .stage{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+  }
+
+  /* Panel điều khiển trở thành bottom-sheet nổi */
+  .control-panel{
+    display:block !important;
+    position:fixed !important;
+    left:8px !important;
+    right:8px !important;
+    top:auto !important;
+    bottom:58px !important;
+    width:auto !important;
+    height:auto !important;
+    max-height:42dvh !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    z-index:160 !important;
+    border:1px solid #234957 !important;
+    border-radius:14px !important;
+    background:#07151d !important;
+    box-shadow:0 12px 36px rgba(0,0,0,.48) !important;
+    transform:translateY(calc(100% + 72px));
+    opacity:0;
+    pointer-events:none;
+    transition:transform .16s ease,opacity .16s ease !important;
+  }
+
+  body.mobile-sheet-open .control-panel{
+    transform:translateY(0);
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  /* Không tốn chỗ cho logo/header lớn trên điện thoại */
+  .control-panel .brand-block{
+    display:none !important;
+  }
+
+  .mobile-sheet-head{
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 8px 0 12px;
+    border-bottom:1px solid #173846;
+    background:#0a1b24;
+  }
+
+  .mobile-sheet-head strong{
+    font-size:10.5px;
+    letter-spacing:.6px;
+    color:#bdefff;
+  }
+
+  .mobile-sheet-close{
+    width:32px !important;
+    height:32px !important;
+    min-height:0 !important;
+    min-width:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    font-size:21px !important;
+    line-height:28px !important;
+  }
+
+  /* Chỉ hiện đúng một nhóm chức năng */
+  .control-panel .panel,
+  .control-panel .mobile-top-actions{
+    display:none !important;
+  }
+
+  body.mobile-panel-zones .panel[data-mobile-panel="zones"],
+  body.mobile-panel-source .panel[data-mobile-panel="source"],
+  body.mobile-panel-adjust .panel[data-mobile-panel="adjust"],
+  body.mobile-panel-more .panel[data-mobile-panel="more"]{
+    display:block !important;
+    margin:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    max-height:calc(42dvh - 36px);
+    overflow:auto;
+  }
+
+  body.mobile-panel-more .mobile-top-actions{
+    display:flex !important;
+    gap:5px !important;
+    padding:8px 8px 0 !important;
+    margin:0 !important;
+    flex-wrap:wrap !important;
+  }
+
+  body.mobile-panel-more .mobile-top-actions + .panel[data-mobile-panel="zones"],
+  body.mobile-panel-more .mobile-top-actions + .panel[data-mobile-panel="zones"] + .panel[data-mobile-panel="source"],
+  body.mobile-panel-more .mobile-top-actions + .panel[data-mobile-panel="zones"] + .panel[data-mobile-panel="source"] + .panel[data-mobile-panel="adjust"]{
+    display:none !important;
+  }
+
+  .control-panel .panel{
+    padding:9px !important;
+  }
+
+  .panel h2{
+    margin-bottom:6px !important;
+  }
+
+  .zone-list{
+    max-height:27dvh !important;
+  }
+
+  .status-card{
+    margin:6px 0 !important;
+    padding:6px !important;
+  }
+
+  .file-button{
+    padding:9px !important;
+  }
+
+  .button-row{
+    gap:4px !important;
+    margin-top:5px !important;
+  }
+
+  .button-row button{
+    min-height:38px !important;
+    font-size:10px !important;
+  }
+
+  .panel input[type=range]{
+    height:22px !important;
+  }
+
+  /* Dock luôn chỉ chiếm một dải mỏng 50px */
+  .mobile-dock{
+    position:fixed;
+    left:50%;
+    bottom:max(4px, env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    z-index:170;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    width:min(96vw,520px);
+    height:48px;
+    padding:3px;
+    gap:2px;
+    background:#07151d;
+    border:1px solid #234957;
+    border-radius:13px;
+    box-shadow:0 10px 30px rgba(0,0,0,.44);
+  }
+
+  .mobile-dock button{
+    min-width:0 !important;
+    min-height:0 !important;
+    height:40px !important;
+    padding:2px 3px !important;
+    border:0 !important;
+    border-radius:9px !important;
+    background:transparent !important;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    color:#a8c8d5;
+    line-height:1;
+  }
+
+  .mobile-dock button span{
+    font-size:16px;
+    line-height:17px;
+    font-weight:700;
+  }
+
+  .mobile-dock button b{
+    font-size:8px;
+    line-height:11px;
+    font-weight:700;
+    letter-spacing:.15px;
+  }
+
+  .mobile-dock button.mobile-active{
+    background:#0d3341 !important;
+    color:#77efff !important;
+  }
+
+  .mobile-dock .mobile-hide-btn{
+    color:#d9fff4 !important;
+  }
+
+  /* Tay nắm dễ chạm nhưng không che quá nhiều nội dung */
+  .handle{
+    width:26px !important;
+    height:26px !important;
+  }
+  .handle.active{
+    width:28px !important;
+    height:28px !important;
+  }
+  .move-handle{
+    width:34px !important;
+    height:34px !important;
+    font-size:18px !important;
+  }
+
+  /* Khi ẩn giao diện: không còn dock/sheet hay bất kỳ UI nào */
+  body.ui-hidden .mobile-dock,
+  body.ui-hidden .control-panel{
+    display:none !important;
+  }
+
+  /* Cửa sổ cấu hình trên mobile gần full nhưng vẫn chừa mép nhỏ */
+  .settings-modal{
+    width:min(96vw,500px) !important;
+    max-height:82dvh !important;
+    overflow:auto !important;
+  }
+}
+
+/* Điện thoại ngang: sheet thấp hơn nữa để giữ vùng chiếu */
+@media (max-width:900px) and (orientation:landscape){
+  .control-panel{
+    left:10px !important;
+    right:auto !important;
+    bottom:58px !important;
+    width:min(44vw,330px) !important;
+    max-height:70dvh !important;
+  }
+
+  body.mobile-panel-zones .panel[data-mobile-panel="zones"],
+  body.mobile-panel-source .panel[data-mobile-panel="source"],
+  body.mobile-panel-adjust .panel[data-mobile-panel="adjust"],
+  body.mobile-panel-more .panel[data-mobile-panel="more"]{
+    max-height:calc(70dvh - 36px);
+  }
+
+  .zone-list{
+    max-height:46dvh !important;
+  }
+
+  .mobile-dock{
+    width:min(72vw,480px);
+    height:46px;
+  }
+
+  .mobile-dock button{
+    height:38px !important;
+  }
+}
+
+
+/* ==========================================================
+   V1.2.2 - DIRECT SHAPE GESTURES
+   ========================================================== */
+.shape-create-tools{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin:0 0 6px;
+}
+.shape-tool{
+  min-height:34px !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+}
+.shape-tool.active{
+  border-color:#00d9ff !important;
+  background:#0d3341 !important;
+  color:#7bf1ff !important;
+}
+.shape-tool-hint{
+  padding:6px 7px;
+  margin-bottom:6px;
+  border:1px solid #173846;
+  border-radius:7px;
+  background:#07141b;
+  color:#8fb2bf;
+  font-size:9.5px;
+  line-height:1.35;
+}
+.shape-preview{
+  position:absolute;
+  z-index:90;
+  pointer-events:none;
+  border:2px dashed rgba(0,217,255,.95);
+  background:rgba(0,217,255,.06);
+  transform-origin:0 0;
+}
+.shape-preview.circle{
+  border-radius:50%;
+}
+body.ui-hidden .shape-preview{
+  display:none !important;
+}
+
+/* TRÒN: tay nắm chính nằm ở trên/phải/dưới/trái */
+.handle.circle-handle{
+  background:#00d9ff !important;
+}
+
+@media (max-width:900px){
+  .shape-create-tools{
+    margin-top:2px;
+  }
+  .shape-tool{
+    min-height:38px !important;
+  }
+}

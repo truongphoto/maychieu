@@ -1,47 +1,45 @@
-GPP CĂN CHIẾU V1.2.0 – OFFICIAL AUDITED PWA
-================================================
+GPP CĂN CHIẾU V1.2.2 – DIRECT SHAPE GESTURES
+===================================================
 
-ĐÂY LÀ BẢN DỌN SẠCH CẤU TRÚC, KHÔNG VÁ CHỒNG.
+BỔ SUNG TẠO VÙNG TRỰC TIẾP TRÊN ĐIỆN THOẠI
 
-LỖI ĐÃ TÌM THẤY TRONG V1.1.14
-1. index.html nạp js/app.js HAI LẦN.
-   -> sự kiện được đăng ký hai lần.
-   -> bấm đúp có thể ẩn rồi hiện lại ngay nên nhìn như không hoạt động.
-2. index.html thiếu link manifest.webmanifest.
-   -> trình duyệt không có liên kết manifest chuẩn từ trang.
-3. thiếu mobile-web-app-capable / apple-mobile-web-app-capable trong head.
-4. thiếu đăng ký Service Worker trong trang/app.
-5. nút CÀI ỨNG DỤNG không tồn tại trong HTML dù JavaScript có logic cho nó.
-6. CSS tích lũy nhiều rule fullscreen/ui-hidden cũ, có rule chồng nhau.
-7. JavaScript cũ có nhiều lần gán btnHideUI.onclick.
-8. phần V1.1.14 gọi fitStage từ ngoài IIFE nên hàm không nằm trong scope đó.
-9. khi UI ẩn, emptyHint chưa được khóa chắc chắn ở mọi bản trước.
-10. cơ chế PC + mobile có nguy cơ nhận cả pointerup và click tổng hợp trên cảm ứng.
+1. TỨ GIÁC
+- Chọn TỨ GIÁC.
+- Nhấn giữ trên vùng chiếu khoảng 0,45 giây.
+- Sau đó kéo 1 ngón.
+- Thả tay để tạo vùng.
+- Nếu người dùng kéo ngay trước khi đủ thời gian giữ, phần mềm hủy thao tác tạo để tránh tạo nhầm.
 
-V1.2.0 ĐÃ SỬA
-- chỉ 1 lần nạp app.js.
-- manifest chuẩn, display=fullscreen.
-- meta PWA/mobile đầy đủ.
-- có nút CÀI ỨNG DỤNG.
-- đăng ký Service Worker đúng 1 lần.
-- Service Worker version v1-2-0.
-- navigation ưu tiên mạng để giảm lỗi giữ bản cũ.
-- CSS viết lại sạch.
+2. TRÒN
+- Chọn TRÒN.
+- Đặt 2 ngón lên vùng chiếu.
+- Giữ khoảng 0,25 giây.
+- Tách 2 ngón tối thiểu khoảng 24 px.
+- Vòng xem trước xuất hiện.
+- Thả tay để tạo hình tròn.
+- Hình tròn dùng mask thật trong WebGL, không phải khung vuông giả.
+
+SAU KHI TẠO TRÒN
+- 4 nút nằm ở TRÊN / PHẢI / DƯỚI / TRÁI.
+- Kéo trái/phải hoặc trên/dưới để biến hình tròn thành ELIP.
+- Không cần nút ELIP riêng.
+- Nút giữa vẫn di chuyển cả vùng.
+
+PHẢN HỒI CẢM ỨNG
+- Có preview khi thao tác đã được nhận.
+- Có rung nhẹ nếu điện thoại hỗ trợ.
+- Khi đang ẨN GIAO DIỆN, không cho tạo nhầm vùng mới.
+
+GIỮ NGUYÊN
+- Mobile Compact UI của V1.2.1.
+- Fullscreen PWA.
+- Multi-Zone.
+- HIỆN / ẨN / XÓA từng vùng.
+- 4 điểm tứ giác.
+- nút giữa di chuyển cả vùng.
 - ẨN GIAO DIỆN = ẩn 100%.
-- PC double-click và mobile double-tap tách riêng.
-- khi hiện giao diện lại KHÔNG thoát fullscreen để tránh resize vùng chiếu.
-- tay nắm giữa di chuyển cả khung vẫn giữ nguyên.
-- HIỆN/ẨN/XÓA từng khung vẫn giữ nguyên.
 
-CÁCH CÀI ANDROID
-1. Upload toàn bộ nội dung thư mục lên GitHub Pages.
-2. Mở link bằng Chrome.
-3. Cài GPP Căn Chiếu.
-4. Sau khi cài, mở bằng icon ngoài màn hình.
-5. Khi cần trình chiếu: bấm ẨN GIAO DIỆN.
-6. Bấm đúp/chạm 2 lần để gọi lại giao diện.
-
-LƯU Ý KIỂM THỬ
-- Fullscreen hệ thống của Android phụ thuộc cách trình duyệt/PWA chạy trên từng máy.
-- Bản này đã làm đúng cấu trúc kỹ thuật giống hướng của truyquet:
-  manifest fullscreen + mobile meta + Service Worker + Fullscreen API theo thao tác người dùng.
+CHƯA ĐƯA VÀO BẢN NÀY
+- Mesh cong nhiều điểm.
+- Điểm phụ chỉnh đường cong.
+Lý do: chỉ đưa vào khi render cong thật, tránh giao diện có nút nhưng lõi chưa xử lý đúng.

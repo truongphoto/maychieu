@@ -538,6 +538,98 @@ window.addEventListener("orientationchange",()=>{
   },180);
 });
 
+
+
+// ===== V1.2.1: MOBILE COMPACT CONTROLS =====
+const mobileQuery=window.matchMedia("(max-width: 900px)");
+const mobilePanelTitles={
+  zones:"KHUNG CHIẾU",
+  source:"NGUỒN ẢNH / VIDEO",
+  adjust:"HIỆU CHỈNH",
+  more:"KHÁC"
+};
+
+function closeMobilePanel(){
+  document.body.classList.remove("mobile-sheet-open");
+  document.body.classList.remove(
+    "mobile-panel-zones",
+    "mobile-panel-source",
+    "mobile-panel-adjust",
+    "mobile-panel-more"
+  );
+  document.querySelectorAll("[data-mobile-open]").forEach(btn=>{
+    btn.classList.remove("mobile-active");
+  });
+}
+
+function openMobilePanel(name){
+  if(!mobileQuery.matches) return;
+
+  const alreadyOpen=
+    document.body.classList.contains("mobile-sheet-open") &&
+    document.body.classList.contains("mobile-panel-"+name);
+
+  closeMobilePanel();
+  if(alreadyOpen) return;
+
+  document.body.classList.add("mobile-sheet-open","mobile-panel-"+name);
+
+  const title=document.getElementById("mobileSheetTitle");
+  if(title) title.textContent=mobilePanelTitles[name]||"ĐIỀU KHIỂN";
+
+  const btn=document.querySelector(`[data-mobile-open="${name}"]`);
+  if(btn) btn.classList.add("mobile-active");
+}
+
+document.querySelectorAll("[data-mobile-open]").forEach(btn=>{
+  btn.addEventListener("click",e=>{
+    e.preventDefault();
+    openMobilePanel(btn.dataset.mobileOpen);
+  });
+});
+
+const closeMobileSheetBtn=document.getElementById("btnCloseMobileSheet");
+if(closeMobileSheetBtn){
+  closeMobileSheetBtn.addEventListener("click",e=>{
+    e.preventDefault();
+    closeMobilePanel();
+  });
+}
+
+const mobileHideBtn=document.getElementById("btnMobileHideUi");
+if(mobileHideBtn){
+  mobileHideBtn.addEventListener("click",e=>{
+    e.preventDefault();
+    closeMobilePanel();
+    enterPresentationMode();
+  });
+}
+
+/* Khi ẩn UI bằng bất kỳ cách nào, sheet cũng phải đóng. */
+const originalSetUIHiddenV121=setUIHidden;
+setUIHidden=function(hidden){
+  if(hidden) closeMobilePanel();
+  originalSetUIHiddenV121(hidden);
+};
+
+/* Đổi hướng hoặc chuyển kích thước thì đóng panel để tránh che bất ngờ. */
+function handleMobileModeChange(){
+  if(!mobileQuery.matches){
+    closeMobilePanel();
+  }else{
+    closeMobilePanel();
+  }
+}
+if(mobileQuery.addEventListener){
+  mobileQuery.addEventListener("change",handleMobileModeChange);
+}else if(mobileQuery.addListener){
+  mobileQuery.addListener(handleMobileModeChange);
+}
+
+/* Mobile mặc định chỉ hiện dock mỏng, không mở sheet nào. */
+if(mobileQuery.matches) closeMobilePanel();
+
+
 buildHandles();
 addZone();
 fitStage();
