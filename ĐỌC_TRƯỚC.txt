@@ -1,45 +1,71 @@
-GPP CĂN CHIẾU V1.2.2 – DIRECT SHAPE GESTURES
-===================================================
+GPP CĂN CHIẾU V1.2.3 – DATA CORE
+=====================================
 
-BỔ SUNG TẠO VÙNG TRỰC TIẾP TRÊN ĐIỆN THOẠI
+ĐÂY LÀ BƯỚC 1 CỦA KẾ HOẠCH KIẾN TRÚC CUỐI CÙNG.
 
-1. TỨ GIÁC
-- Chọn TỨ GIÁC.
-- Nhấn giữ trên vùng chiếu khoảng 0,45 giây.
-- Sau đó kéo 1 ngón.
-- Thả tay để tạo vùng.
-- Nếu người dùng kéo ngay trước khi đủ thời gian giữ, phần mềm hủy thao tác tạo để tránh tạo nhầm.
+1. LÕI DỮ LIỆU MỚI
+DỰ ÁN -> HỘP -> MẶT -> NGUỒN
 
-2. TRÒN
-- Chọn TRÒN.
-- Đặt 2 ngón lên vùng chiếu.
-- Giữ khoảng 0,25 giây.
-- Tách 2 ngón tối thiểu khoảng 24 px.
-- Vòng xem trước xuất hiện.
-- Thả tay để tạo hình tròn.
-- Hình tròn dùng mask thật trong WebGL, không phải khung vuông giả.
+- Project / Box / Face / Source đều có ID cố định.
+- Không dùng số thứ tự mảng làm ID logic.
+- Mỗi MẶT đã tách sẵn:
+  + points = 4 điểm phối cảnh nền
+  + perimeter = dữ liệu chu vi
+  + content = zoom/pan/rotate/flip của nội dung
+  + sourceId = nguồn riêng của mặt
+- HỘP có sourceId để chuẩn bị nguồn chung.
+- HỘP có displayMode để chuẩn bị LIỀN KHỐI / ĐỒNG BỘ.
 
-SAU KHI TẠO TRÒN
-- 4 nút nằm ở TRÊN / PHẢI / DƯỚI / TRÁI.
-- Kéo trái/phải hoặc trên/dưới để biến hình tròn thành ELIP.
-- Không cần nút ELIP riêng.
-- Nút giữa vẫn di chuyển cả vùng.
+2. SOURCE MANAGER
+- Nguồn media tách khỏi MẶT.
+- MẶT chỉ tham chiếu sourceId.
+- Nhân bản MẶT dùng chung sourceId, không tạo thêm decoder.
+- Một source có 1 texture WebGL runtime.
+- Một frame chỉ upload texture của mỗi source 1 lần rồi có thể render nhiều MẶT.
+- Nguồn chỉ giải phóng khi không còn đối tượng nào tham chiếu.
 
-PHẢN HỒI CẢM ỨNG
-- Có preview khi thao tác đã được nhận.
-- Có rung nhẹ nếu điện thoại hỗ trợ.
-- Khi đang ẨN GIAO DIỆN, không cho tạo nhầm vùng mới.
+3. SỬA LỖI V1.2.2
+Qua rà soát gói V1.2.2 phát hiện HTML/CSS đã có TỨ GIÁC/TRÒN nhưng app.js trong ZIP chưa chứa phần gesture tương ứng.
+V1.2.3 đã đưa lại đầy đủ:
+- TỨ GIÁC: giữ 0,45 giây rồi kéo 1 ngón.
+- TRÒN: 2 ngón, giữ ngắn rồi tách.
+- Preview trực tiếp.
+- Mask tròn/elip thật trong WebGL.
+- 4 nút TRÒN ở trên/phải/dưới/trái.
+- kéo các nút để đổi thành elip.
 
-GIỮ NGUYÊN
-- Mobile Compact UI của V1.2.1.
-- Fullscreen PWA.
-- Multi-Zone.
-- HIỆN / ẨN / XÓA từng vùng.
-- 4 điểm tứ giác.
-- nút giữa di chuyển cả vùng.
+4. AN TOÀN HÌNH HỌC
+- Kiểm tra tứ giác tự cắt.
+- Kiểm tra diện tích tối thiểu.
+- Không commit tọa độ lỗi.
+- Mỗi mặt giữ lastValidPoints.
+- Ma trận homography suy biến không làm app dừng.
+
+5. LƯU / MỞ
+- schemaVersion = 2.
+- Key mới: gpp-can-chieu-project-v2.
+- Có migration từ dữ liệu cũ gpp-v11-mz.
+- Media local không nhúng vào localStorage; sau khi mở lại cần chọn lại file.
+- Geometry / Box / Face / Source metadata được giữ.
+
+6. GIỮ NGUYÊN
+- 1 WebGL canvas.
+- Mobile Compact UI.
+- PWA fullscreen.
 - ẨN GIAO DIỆN = ẩn 100%.
+- nút giữa di chuyển cả mặt.
+- HIỆN / ẨN / XÓA.
+- sáng / xoay / lật / thứ tự lớp.
+- giao diện tiếng Việt.
 
-CHƯA ĐƯA VÀO BẢN NÀY
-- Mesh cong nhiều điểm.
-- Điểm phụ chỉnh đường cong.
-Lý do: chỉ đưa vào khi render cong thật, tránh giao diện có nút nhưng lõi chưa xử lý đúng.
+7. CHƯA MỞ UI HỘP TRONG BẢN NÀY
+Theo kế hoạch, V1.2.3 chỉ đổi DATA CORE để không phá UI đang dùng.
+UI + HỘP và + THÊM KHUNG sẽ làm ở V1.3.0 sau khi PERIMETER hoàn thiện.
+
+BƯỚC TIẾP THEO
+V1.2.4 – PERIMETER CONTROL:
+- nhiều điểm theo chu vi,
+- thêm/xóa điểm bằng nhấn giữ,
+- polygon triangulation,
+- mask thật,
+- khung nguồn ảo giữ tỷ lệ.

@@ -1,4 +1,4 @@
-const CACHE_NAME="gpp-can-chieu-v1-2-2";
+const CACHE_NAME="gpp-can-chieu-v1-2-3-data-core";
 const APP_SHELL=[
   "./",
   "./index.html",
