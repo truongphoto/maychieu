@@ -1,13 +1,13 @@
 {
   "name": "GPP Căn Chiếu",
   "short_name": "GPP Căn Chiếu",
-  "description": "Căn chỉnh ảnh và video theo bề mặt chiếu trên điện thoại.",
+  "description": "Projection mapping đa hộp, đa mặt, phối cảnh và chu vi.",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",
-  "orientation": "any",
   "background_color": "#000000",
   "theme_color": "#000000",
+  "orientation": "any",
   "lang": "vi",
   "icons": [
     {

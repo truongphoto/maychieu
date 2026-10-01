@@ -2,170 +2,178 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
   <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="GPP Căn Chiếu">
-
-  <title>GPP Căn Chiếu V1.2.3 – DATA CORE</title>
-
+  <title>GPP Căn Chiếu V1.4.0 – FULL PLAN</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="icon" href="assets/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-<div class="app-shell">
-  <aside class="control-panel">
-    <div class="mobile-sheet-head">
-      <strong id="mobileSheetTitle">ĐIỀU KHIỂN</strong>
-      <button id="btnCloseMobileSheet" class="mobile-sheet-close" type="button">×</button>
-    </div>
-
-    <div class="brand-block">
-      <img src="assets/logo_trang.png" alt="Logo GPP" class="brand-logo-main">
-      <div>
-        <h1>GPP CĂN CHIẾU</h1>
-        <p>Điều khiển vùng chiếu</p>
-      </div>
-    </div>
-
-    <div class="mobile-top-actions">
-      <button id="btnSetup" class="top-tool-btn">CẤU HÌNH</button>
-      <button id="btnInstallApp" class="top-tool-btn install-app-btn" hidden>CÀI ỨNG DỤNG</button>
-      <button id="btnHideUI" class="top-tool-btn primary">ẨN GIAO DIỆN</button>
-    </div>
-
-    <section class="panel" data-mobile-panel="zones">
-      <div class="panel-head">
-        <h2>KHUNG CHIẾU</h2>
-        <button id="btnAddZone" class="mini primary">+ THÊM</button>
-      </div>
-      
-      <div class="shape-create-tools">
-        <button id="toolQuad" class="shape-tool active" type="button">TỨ GIÁC</button>
-        <button id="toolCircle" class="shape-tool" type="button">TRÒN</button>
-      </div>
-      <div id="shapeToolHint" class="shape-tool-hint">
-        Tứ giác: nhấn giữ rồi kéo 1 ngón trên vùng chiếu.
-      </div>
-      <div id="zoneList" class="zone-list"></div>
-
-    </section>
-
-    <section class="panel" data-mobile-panel="source">
-      <h2>NGUỒN</h2>
-      <label class="file-button">
-        CHỌN ẢNH / VIDEO
-        <input id="fileInput" type="file" accept="image/*,video/*">
-      </label>
-      <div id="fileInfo" class="status-card">Chưa chọn nội dung</div>
-      <div class="button-row">
-        <button id="btnPlay">PHÁT</button>
-        <button id="btnPause">TẠM DỪNG</button>
-        <button id="btnStop">DỪNG</button>
-      </div>
-    </section>
-
-    <section class="panel" data-mobile-panel="adjust">
-      <h2>HIỆU CHỈNH</h2>
-      <label>Độ sáng
-        <input id="brightness" type="range" min="50" max="150" value="100">
-      </label>
-      <div class="button-row">
-        <button id="btnRotate">XOAY 90°</button>
-        <button id="btnFlipX">LẬT NGANG</button>
-        <button id="btnFlipY">LẬT DỌC</button>
-      </div>
-      <div class="button-row">
-        <button id="btnLock">KHÓA</button>
-        <button id="btnVisible">ẨN KHUNG</button>
-        <button id="btnResetZone">ĐẶT LẠI</button>
-      </div>
-    </section>
-
-    <section class="panel" data-mobile-panel="more">
-      <h2>THỨ TỰ & CẤU HÌNH</h2>
-      <div class="button-row">
-        <button id="btnLayerUp">ĐƯA LÊN</button>
-        <button id="btnLayerDown">ĐƯA XUỐNG</button>
-        <button id="btnDuplicate">NHÂN BẢN</button>
-      </div>
-      <div class="button-row">
-        <button id="btnToggleGrid">ẨN LƯỚI</button>
-        <button id="btnSave">LƯU</button>
-        <button id="btnLoad">MỞ</button>
-      </div>
-      <button id="btnDelete" class="danger full">XÓA KHUNG</button>
-    </section>
-  </aside>
-
-  <main class="output-panel">
-    <div id="stageHost" class="stage-host">
-      <div id="stage" class="stage">
-        <canvas id="glCanvas"></canvas>
-        <canvas id="gridCanvas"></canvas>
-        <div id="handleLayer"></div>
-        <div id="shapePreview" class="shape-preview" hidden></div>
-
-        <div id="emptyHint" class="empty-hint">
-          <div class="crosshair"></div>
-          <h3>CHỌN ẢNH / VIDEO</h3>
-          <p>Kéo 4 góc để căn vùng chiếu.</p>
-        </div>
+<div id="app" class="app-shell">
+  <main class="output">
+    <div id="stage" class="stage">
+      <canvas id="glCanvas"></canvas>
+      <canvas id="overlayCanvas"></canvas>
+      <div id="handleLayer"></div>
+      <div id="shapePreview" class="shape-preview" hidden></div>
+      <div id="emptyHint" class="empty-hint">
+        <img src="assets/logo_trang.png" alt="" class="empty-logo">
+        <strong>GPP CĂN CHIẾU</strong>
+        <span>Tạo HỘP hoặc thêm MẶT để bắt đầu</span>
       </div>
     </div>
   </main>
 
-  <nav class="mobile-dock" aria-label="Điều khiển nhanh">
-    <button type="button" data-mobile-open="zones"><span>▦</span><b>KHUNG</b></button>
-    <button type="button" data-mobile-open="source"><span>▶</span><b>NGUỒN</b></button>
-    <button type="button" data-mobile-open="adjust"><span>◇</span><b>CHỈNH</b></button>
-    <button type="button" data-mobile-open="more"><span>⋯</span><b>KHÁC</b></button>
-    <button type="button" id="btnMobileHideUi" class="mobile-hide-btn"><span>▣</span><b>ẨN</b></button>
+  <aside id="controlSheet" class="control-sheet">
+    <header class="sheet-head">
+      <div class="brand">
+        <img src="assets/logo_trang.png" alt="GPP">
+        <div><b>GPP CĂN CHIẾU</b><small id="selectionText">Chưa chọn</small></div>
+      </div>
+      <div class="head-actions">
+        <button id="btnUndo" title="Hoàn tác">↶</button>
+        <button id="btnRedo" title="Làm lại">↷</button>
+        <button id="btnCloseSheet" title="Đóng">×</button>
+      </div>
+    </header>
+
+    <section class="sheet-page active" data-page="boxes">
+      <div class="quick-row">
+        <button id="btnAddBox" class="primary">+ HỘP</button>
+        <button id="btnAddFace" class="primary">+ THÊM KHUNG</button>
+      </div>
+
+      <div class="create-tools">
+        <button id="toolQuad">+ TỨ GIÁC</button>
+        <button id="toolCircle">+ TRÒN</button>
+        <button id="btnCancelCreate" class="ghost" hidden>HỦY TẠO</button>
+      </div>
+      <div id="gestureHint" class="hint">Chọn công cụ rồi thao tác trực tiếp trên vùng chiếu.</div>
+
+      <div id="projectTree" class="project-tree"></div>
+    </section>
+
+    <section class="sheet-page" data-page="sources">
+      <label class="file-button">
+        + THÊM ẢNH / VIDEO
+        <input id="sourceFile" type="file" accept="image/*,video/*" multiple>
+      </label>
+      <div id="sourceList" class="source-list"></div>
+      <div class="quick-row">
+        <button id="btnAssignBox">GÁN HỘP</button>
+        <button id="btnAssignFace">GÁN MẶT</button>
+        <button id="btnClearFaceSource">GỠ MẶT</button>
+      </div>
+      <div class="media-controls">
+        <button id="btnPlay">PHÁT</button>
+        <button id="btnPause">TẠM DỪNG</button>
+        <button id="btnRestart">TỪ ĐẦU</button>
+      </div>
+    </section>
+
+    <section class="sheet-page" data-page="adjust">
+      <div class="section-title">KIỂU HIỂN THỊ HỘP</div>
+      <div class="segmented">
+        <button id="modeContinuous">LIỀN KHỐI</button>
+        <button id="modeSync">ĐỒNG BỘ</button>
+      </div>
+
+      <div class="section-title">CHỈNH MẶT</div>
+      <div class="quick-row">
+        <button id="btnPerspective">PHỐI CẢNH</button>
+        <button id="btnPerimeter">CHU VI</button>
+      </div>
+      <div id="editHint" class="hint">PHỐI CẢNH: kéo 4 góc. CHU VI: chỉnh đường biên, không làm méo nguồn.</div>
+
+      <label class="slider-row">Độ sáng <span id="brightnessValue">100%</span>
+        <input id="brightness" type="range" min="40" max="160" value="100">
+      </label>
+      <label class="slider-row">Phóng nội dung <span id="scaleValue">100%</span>
+        <input id="contentScale" type="range" min="100" max="300" value="100">
+      </label>
+      <label class="slider-row">Dịch ngang
+        <input id="contentPanX" type="range" min="-50" max="50" value="0">
+      </label>
+      <label class="slider-row">Dịch dọc
+        <input id="contentPanY" type="range" min="-50" max="50" value="0">
+      </label>
+      <label class="slider-row">Tỷ trọng LIỀN KHỐI <span id="weightValue">1.00</span>
+        <input id="contentWeight" type="range" min="10" max="400" value="100">
+      </label>
+
+      <div class="quick-row">
+        <button id="btnRotate">XOAY 90°</button>
+        <button id="btnFlipX">LẬT NGANG</button>
+        <button id="btnFlipY">LẬT DỌC</button>
+      </div>
+      <div class="quick-row">
+        <button id="btnResetContent">ĐẶT LẠI NỘI DUNG</button>
+        <button id="btnResetFace">ĐẶT LẠI MẶT</button>
+      </div>
+
+      <div class="section-title">CẠNH CHUNG</div>
+      <div class="quick-row">
+        <button id="btnLinkNearest">LIÊN KẾT CẠNH GẦN</button>
+        <button id="btnUnlinkFace">TÁCH CẠNH</button>
+      </div>
+      <div id="linkInfo" class="hint">Chỉ liên kết các mặt thuộc cùng HỘP.</div>
+    </section>
+
+    <section class="sheet-page" data-page="more">
+      <div class="quick-row">
+        <button id="btnToggleGrid">ẨN ĐƯỜNG BIÊN</button>
+        <button id="btnLockFace">KHÓA MẶT</button>
+        <button id="btnHideFace">ẨN MẶT</button>
+      </div>
+      <div class="quick-row">
+        <button id="btnLayerUp">ĐƯA LÊN</button>
+        <button id="btnLayerDown">ĐƯA XUỐNG</button>
+        <button id="btnDuplicateFace">NHÂN MẶT</button>
+      </div>
+      <div class="quick-row">
+        <button id="btnSave">LƯU</button>
+        <button id="btnLoad">MỞ</button>
+        <button id="btnInstallApp" hidden>CÀI APP</button>
+      </div>
+      <div class="quick-row">
+        <button id="btnDeleteFace" class="danger">XÓA MẶT</button>
+        <button id="btnDeleteBox" class="danger">XÓA HỘP</button>
+      </div>
+      <div class="status-card" id="statusCard">Sẵn sàng.</div>
+    </section>
+  </aside>
+
+  <nav class="mobile-dock">
+    <button data-open-page="boxes"><span>▦</span><b>HỘP</b></button>
+    <button data-open-page="sources"><span>▶</span><b>NGUỒN</b></button>
+    <button data-open-page="adjust"><span>◇</span><b>CHỈNH</b></button>
+    <button data-open-page="more"><span>⋯</span><b>KHÁC</b></button>
+    <button id="btnHideUI" class="hide-ui"><span>▣</span><b>ẨN</b></button>
   </nav>
 
-</div>
-
-<div id="settingsModal" class="modal-backdrop" hidden>
-  <div class="settings-modal">
-    <div class="settings-titlebar">
-      <div>
-        <strong>CẤU HÌNH HỆ THỐNG</strong>
-        <span>Thiết lập vận hành GPP Căn Chiếu</span>
-      </div>
-      <button id="btnCloseSettings" class="close-btn">×</button>
-    </div>
-
-    <div class="settings-body">
-      <label>
-        Tên cấu hình
-        <input id="profileName" type="text" value="Cấu hình mặc định">
-      </label>
-
-      <label>
-        Tỷ lệ mặt phẳng chiếu
-        <select id="screenRatio">
-          <option value="16:9">16:9</option>
-          <option value="16:10">16:10</option>
-          <option value="4:3">4:3</option>
-        </select>
-      </label>
-
-      <div class="settings-note">
-        Cấu hình không làm thay đổi tọa độ các khung đã căn.
-      </div>
-    </div>
-
-    <div class="settings-actions">
-      <button id="btnCancelSettings">HỦY</button>
-      <button id="btnSaveSettings" class="primary">LƯU CẤU HÌNH</button>
-    </div>
+  <div id="contextMenu" class="context-menu" hidden>
+    <button data-action="add-point">+ THÊM ĐIỂM</button>
+    <button data-action="delete-point">XÓA ĐIỂM</button>
+    <button data-action="lock-point">KHÓA / MỞ</button>
+    <button data-action="reset-perimeter">ĐẶT LẠI CHU VI</button>
+    <button data-action="duplicate-face">NHÂN MẶT</button>
+    <button data-action="delete-face" class="danger">XÓA MẶT</button>
+    <button data-action="duplicate-box">NHÂN HỘP</button>
+    <button data-action="delete-box" class="danger">XÓA HỘP</button>
   </div>
+
+  <div id="toast" class="toast" hidden></div>
 </div>
 
+<script src="js/core.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

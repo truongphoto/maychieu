@@ -1,71 +1,85 @@
-GPP CĂN CHIẾU V1.2.3 – DATA CORE
-=====================================
+GPP CĂN CHIẾU V1.4.0 – FULL PLAN
+====================================
 
-ĐÂY LÀ BƯỚC 1 CỦA KẾ HOẠCH KIẾN TRÚC CUỐI CÙNG.
+PHIÊN BẢN ĐẦY ĐỦ THEO KẾ HOẠCH ĐÃ CHỐT
 
-1. LÕI DỮ LIỆU MỚI
-DỰ ÁN -> HỘP -> MẶT -> NGUỒN
+CẤU TRÚC
+- DỰ ÁN → HỘP → MẶT → NGUỒN.
+- ID cố định, không phụ thuộc số thứ tự.
+- Một HỘP có nhiều MẶT.
+- Một NGUỒN có thể dùng cho nhiều HỘP/MẶT.
+- MẶT có thể ghi đè nguồn riêng.
 
-- Project / Box / Face / Source đều có ID cố định.
-- Không dùng số thứ tự mảng làm ID logic.
-- Mỗi MẶT đã tách sẵn:
-  + points = 4 điểm phối cảnh nền
-  + perimeter = dữ liệu chu vi
-  + content = zoom/pan/rotate/flip của nội dung
-  + sourceId = nguồn riêng của mặt
-- HỘP có sourceId để chuẩn bị nguồn chung.
-- HỘP có displayMode để chuẩn bị LIỀN KHỐI / ĐỒNG BỘ.
+HỘP / MẶT
+- + HỘP.
+- + THÊM KHUNG.
+- cây HỘP → MẶT.
+- nhân/xóa HỘP, nhân/xóa MẶT.
+- khóa/ẩn mặt, thứ tự lớp.
 
-2. SOURCE MANAGER
-- Nguồn media tách khỏi MẶT.
-- MẶT chỉ tham chiếu sourceId.
-- Nhân bản MẶT dùng chung sourceId, không tạo thêm decoder.
-- Một source có 1 texture WebGL runtime.
-- Một frame chỉ upload texture của mỗi source 1 lần rồi có thể render nhiều MẶT.
-- Nguồn chỉ giải phóng khi không còn đối tượng nào tham chiếu.
+TẠO HÌNH
+- TỨ GIÁC: chọn + TỨ GIÁC → giữ khoảng 0,45 giây → kéo 1 ngón.
+- TRÒN: chọn + TRÒN → đặt 2 ngón → giữ ngắn → tách.
+- tạo xong tự trở về chế độ chọn để không tạo nhầm.
 
-3. SỬA LỖI V1.2.2
-Qua rà soát gói V1.2.2 phát hiện HTML/CSS đã có TỨ GIÁC/TRÒN nhưng app.js trong ZIP chưa chứa phần gesture tương ứng.
-V1.2.3 đã đưa lại đầy đủ:
-- TỨ GIÁC: giữ 0,45 giây rồi kéo 1 ngón.
-- TRÒN: 2 ngón, giữ ngắn rồi tách.
-- Preview trực tiếp.
-- Mask tròn/elip thật trong WebGL.
-- 4 nút TRÒN ở trên/phải/dưới/trái.
-- kéo các nút để đổi thành elip.
+CHU VI
+- Chu vi độc lập với PHỐI CẢNH.
+- Điểm chu vi chỉ MASK nội dung, không bóp pixel nguồn.
+- TRÒN có nhiều điểm chu vi bên trong; chế độ nhanh chỉ hiện 4 điểm chính.
+- nhấn giữ MẶT → mở chỉnh CHU VI.
+- nhấn giữ đường biên → + THÊM ĐIỂM.
+- nhấn giữ điểm → XÓA / KHÓA.
+- polygon được triangulate bằng ear-clipping để hỗ trợ hình lõm tốt hơn fan từ tâm.
 
-4. AN TOÀN HÌNH HỌC
-- Kiểm tra tứ giác tự cắt.
-- Kiểm tra diện tích tối thiểu.
-- Không commit tọa độ lỗi.
-- Mỗi mặt giữ lastValidPoints.
-- Ma trận homography suy biến không làm app dừng.
+GIỮ TỶ LỆ NỘI DUNG
+- mặc định COVER / TRÀN KHUNG.
+- giữ aspect ratio của ảnh/video.
+- zoom và pan chỉ thay đổi khung nguồn ảo.
+- kéo chu vi không kéo giãn ảnh.
+- PHỐI CẢNH chỉ là bù hình học của mặt chiếu.
 
-5. LƯU / MỞ
-- schemaVersion = 2.
-- Key mới: gpp-can-chieu-project-v2.
-- Có migration từ dữ liệu cũ gpp-v11-mz.
-- Media local không nhúng vào localStorage; sau khi mở lại cần chọn lại file.
-- Geometry / Box / Face / Source metadata được giữ.
+PHỐI CẢNH
+- mỗi MẶT luôn có 4 điểm phối cảnh nền.
+- kiểm tra tứ giác hợp lệ.
+- lastValidPoints.
+- không cho ma trận lỗi làm app dừng.
 
-6. GIỮ NGUYÊN
-- 1 WebGL canvas.
-- Mobile Compact UI.
-- PWA fullscreen.
-- ẨN GIAO DIỆN = ẩn 100%.
-- nút giữa di chuyển cả mặt.
-- HIỆN / ẨN / XÓA.
-- sáng / xoay / lật / thứ tự lớp.
-- giao diện tiếng Việt.
+LIỀN KHỐI / ĐỒNG BỘ
+- LIỀN KHỐI: một nguồn được trải liên tục qua các MẶT của HỘP.
+- ĐỒNG BỘ: mỗi MẶT lấy toàn bộ nội dung giống nhau.
+- contentWeight cho phép chia tỷ trọng từng MẶT.
+- thứ tự LIỀN KHỐI lấy theo thứ tự MẶT trong HỘP.
 
-7. CHƯA MỞ UI HỘP TRONG BẢN NÀY
-Theo kế hoạch, V1.2.3 chỉ đổi DATA CORE để không phá UI đang dùng.
-UI + HỘP và + THÊM KHUNG sẽ làm ở V1.3.0 sau khi PERIMETER hoàn thiện.
+NGUỒN
+- SourceManager dùng chung 1 runtime/texture cho sourceId.
+- nhiều HỘP cùng dùng một video không tạo bản video riêng cho từng HỘP.
+- MẶT có sourceId riêng sẽ ghi đè nguồn HỘP.
+- media local không nhét vào localStorage; mở phiên trình duyệt mới có thể cần chọn lại file.
 
-BƯỚC TIẾP THEO
-V1.2.4 – PERIMETER CONTROL:
-- nhiều điểm theo chu vi,
-- thêm/xóa điểm bằng nhấn giữ,
-- polygon triangulation,
-- mask thật,
-- khung nguồn ảo giữ tỷ lệ.
+CẠNH CHUNG
+- LIÊN KẾT CẠNH GẦN tự tìm cặp cạnh gần nhất trong cùng HỘP.
+- người dùng xác nhận bằng nút.
+- kéo đỉnh cạnh liên kết truyền sang MẶT bên cạnh.
+- TÁCH CẠNH để bỏ liên kết.
+
+MOBILE
+- vùng chiếu luôn full viewport.
+- dock dưới: HỘP | NGUỒN | CHỈNH | KHÁC | ẨN.
+- sheet nổi không resize canvas.
+- ẨN = ẩn 100% giao diện.
+- double-tap vùng trống để ẩn/hiện.
+
+AN TOÀN
+- Undo/Redo cấu trúc.
+- Service Worker cache V1.4.0 riêng.
+- một WebGL canvas.
+- nền ngoài vùng chiếu là đen tuyệt đối.
+
+LƯU Ý
+- Đây là PWA/web. Media do người dùng chọn trực tiếp từ điện thoại được dùng bằng URL cục bộ trong phiên hiện tại.
+- Cấu hình hình học được lưu; file media cục bộ có thể cần chọn lại sau khi đóng hoàn toàn trình duyệt/PWA.
+
+BỔ SUNG RÀ SOÁT
+- Nguồn không tự bị xóa khi tạm thời không còn HỘP/MẶT tham chiếu; vẫn giữ trong thư viện để gán lại và Undo/Redo an toàn.
+- Chặn double-tap ẩn giao diện ngay sau thao tác tạo TRÒN/TỨ GIÁC.
+- Slider được gom thành một thao tác Undo/Redo thay vì ghi từng pixel kéo.
