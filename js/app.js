@@ -421,10 +421,18 @@ refreshSetupButton();
 // ===== V1.1.7: ẨN / HIỆN GIAO DIỆN KHÔNG RESIZE VÙNG CHIẾU =====
 function setUIHidden(hidden){
   document.body.classList.toggle("ui-hidden",hidden);
+
+  const settingsModal=document.getElementById("settingsModal");
+  if(hidden && settingsModal){
+    settingsModal.hidden=true;
+  }
+
   const b=$("btnHideUI");
-  if(b) b.textContent=hidden?"HIỆN GIAO DIỆN":"ẨN GIAO DIỆN";
+  if(b) b.textContent="ẨN GIAO DIỆN";
+
   if(hidden){
     handleEls.forEach(h=>h.style.display="none");
+    if(moveHandle) moveHandle.style.display="none";
     const ctx=gridCanvas.getContext("2d");
     ctx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
   }else{
@@ -513,3 +521,5 @@ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredIns
 if(installBtn){installBtn.addEventListener("click",async()=>{if(!deferredInstallPrompt){alert("Hãy mở menu trình duyệt và chọn ‘Cài đặt ứng dụng’ hoặc ‘Thêm vào màn hình chính’. ");return;}deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice;}catch(e){}deferredInstallPrompt=null;installBtn.hidden=true;});}
 window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;if(installBtn)installBtn.hidden=true;});
 if(isStandaloneMode()&&installBtn)installBtn.hidden=true;
+
+// ===== V1.1.13: ẨN GIAO DIỆN = ẨN 100% =====

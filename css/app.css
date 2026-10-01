@@ -209,20 +209,8 @@ body.ui-hidden #gridCanvas,
 body.ui-hidden #handleLayer{
   display:none !important;
 }
-.ui-toggle-hint{
-  display:none;
-  position:absolute;
-  left:12px;
-  top:12px;
-  z-index:60;
-  pointer-events:none;
-  padding:6px 9px;
-  border-radius:7px;
-  font-size:10px;
-  color:rgba(255,255,255,.42);
-  background:rgba(0,0,0,.18);
-}
-body.ui-hidden .ui-toggle-hint{display:block}
+
+body.ui-hidden 
 
 /* Nút trực tiếp trên từng khung */
 .zone-item{
@@ -303,10 +291,7 @@ body.ui-hidden #handleLayer{
 }
 
 /* Hint rất nhẹ, không cản thao tác */
-.ui-toggle-hint{
-  pointer-events:none !important;
-  z-index:95 !important;
-}
+
 
 /* V1.1.9 - sửa stacking context để 4 vòng góc có thể nổi trên panel */
 .output-panel{
@@ -388,3 +373,34 @@ body.ui-hidden .move-handle{
 }
 
 .install-app-btn{border-color:#2e806b!important;color:#d9fff4!important;background:linear-gradient(180deg,#15382f,#102a24)!important;font-weight:700}
+
+
+/* V1.1.13 - KHÓA: ẨN GIAO DIỆN = ẨN 100% GIAO DIỆN */
+body.ui-hidden{
+  background:#000 !important;
+  cursor:default !important;
+}
+body.ui-hidden .control-panel,
+body.ui-hidden .brand-block,
+body.ui-hidden .mobile-top-actions,
+body.ui-hidden .panel,
+body.ui-hidden .settings-modal,
+body.ui-hidden .modal-backdrop,
+body.ui-hidden #gridCanvas,
+body.ui-hidden #handleLayer,
+body.ui-hidden .handle,
+body.ui-hidden .move-handle,
+body.ui-hidden .ui-toggle-hint{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+body.ui-hidden .output-panel,
+body.ui-hidden .stage-host,
+body.ui-hidden .stage,
+body.ui-hidden #glCanvas{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}

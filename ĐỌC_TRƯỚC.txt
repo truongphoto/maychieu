@@ -1,15 +1,36 @@
-GPP CĂN CHIẾU V1.1.12 – ANDROID PWA INSTALL
-============================================
+GPP CĂN CHIẾU V1.1.13 – FULL UI HIDE
+==========================================
 
-CÁCH CÀI TRÊN ANDROID
-1. Đưa thư mục lên GitHub Pages hoặc một trang HTTPS.
-2. Mở bằng Chrome trên điện thoại.
-3. Bấm CÀI ỨNG DỤNG nếu nút xuất hiện.
-4. Nếu không có nút: menu ⋮ > Cài đặt ứng dụng / Thêm vào màn hình chính.
-5. Sau khi cài, icon GPP Căn Chiếu xuất hiện ngoài màn hình và mở như một ứng dụng riêng.
+NGUYÊN TẮC KHÓA
+ẨN GIAO DIỆN = ẨN 100% GIAO DIỆN.
 
-LƯU Ý
-- PWA cần HTTPS hoặc localhost. Mở file:/// trực tiếp sẽ không cài PWA được.
-- GitHub Pages dùng HTTPS nên phù hợp.
-- Ảnh/video vẫn do người dùng tự chọn và xử lý cục bộ.
-- Giữ nguyên Multi-Zone, 4 góc kéo, tay nắm giữa di chuyển cả khung, HIỆN/ẨN/XÓA từng khung.
+KHI ẨN
+- Không logo.
+- Không panel trái.
+- Không nút.
+- Không lưới.
+- Không 4 vòng căn chỉnh.
+- Không nút giữa di chuyển cả khung.
+- Không chữ hướng dẫn.
+- Không dòng “Bấm đúp / chạm 2 lần”.
+- Không cửa sổ cấu hình.
+- Không trạng thái kỹ thuật.
+- Chỉ còn ảnh/video đang chiếu và nền đen ở vùng trống.
+
+HIỆN LẠI
+- PC: bấm đúp vùng chiếu.
+- Điện thoại: chạm 2 lần nhanh.
+- Thao tác này không có lời nhắc trên màn hình.
+
+ANDROID PWA
+- Giữ manifest.webmanifest.
+- Giữ service-worker.js.
+- Cache đã tăng lên V1.1.13 để tránh điện thoại giữ giao diện cũ.
+- Khi cập nhật trên GitHub Pages, nên đóng mở lại ứng dụng sau khi trang cập nhật xong.
+
+GIỮ NGUYÊN
+- Multi-Zone.
+- 4 góc kéo.
+- Tay nắm giữa để di chuyển cả khung.
+- HIỆN / ẨN / XÓA từng khung.
+- Cài ứng dụng trên Android bằng PWA.
