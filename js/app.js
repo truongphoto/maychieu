@@ -505,3 +505,11 @@ if($("btnHideUI")){
 
 buildHandles();addZone();fitStage();requestAnimationFrame(render);
 })();
+// ===== V1.1.12: CÀI ỨNG DỤNG PWA TRÊN ANDROID =====
+let deferredInstallPrompt=null;
+const installBtn=document.getElementById("btnInstallApp");
+function isStandaloneMode(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;if(installBtn&&!isStandaloneMode())installBtn.hidden=false;});
+if(installBtn){installBtn.addEventListener("click",async()=>{if(!deferredInstallPrompt){alert("Hãy mở menu trình duyệt và chọn ‘Cài đặt ứng dụng’ hoặc ‘Thêm vào màn hình chính’. ");return;}deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice;}catch(e){}deferredInstallPrompt=null;installBtn.hidden=true;});}
+window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;if(installBtn)installBtn.hidden=true;});
+if(isStandaloneMode()&&installBtn)installBtn.hidden=true;

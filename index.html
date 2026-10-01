@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPP Căn Chiếu V1.1.11</title>
+  <title>GPP Căn Chiếu V1.1.12</title>
   <link rel="icon" type="image/png" href="assets/icon_trang.png">
   <link rel="stylesheet" href="css/app.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#07131a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="GPP Căn Chiếu">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
 </head>
 <body>
 
@@ -21,6 +27,7 @@
 
     <div class="mobile-top-actions">
       <button id="btnSetup" class="setup-btn top-tool-btn">CẤU HÌNH</button>
+      <button id="btnInstallApp" class="top-tool-btn install-app-btn" hidden>CÀI ỨNG DỤNG</button>
       <button id="btnHideUI" class="top-tool-btn">ẨN GIAO DIỆN</button>
     </div>
 
@@ -135,8 +142,18 @@
     </div>
   </div>
 </div>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+}
+</script>
 <script src="js/app.js"></script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+}
+</script>
 <script src="js/app.js"></script>
 </body>
 </html>

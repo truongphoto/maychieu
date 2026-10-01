@@ -1,30 +1,15 @@
-GPP CĂN CHIẾU V1.1.11 – CÀI LỐI TẮT
-=======================================
+GPP CĂN CHIẾU V1.1.12 – ANDROID PWA INSTALL
+============================================
 
-BỔ SUNG
-- Icon Windows .ICO từ logo trắng.
-- CÀI_ĐẶT_LỐI_TẮT.cmd
-- GỠ_LỐI_TẮT.cmd
+CÁCH CÀI TRÊN ANDROID
+1. Đưa thư mục lên GitHub Pages hoặc một trang HTTPS.
+2. Mở bằng Chrome trên điện thoại.
+3. Bấm CÀI ỨNG DỤNG nếu nút xuất hiện.
+4. Nếu không có nút: menu ⋮ > Cài đặt ứng dụng / Thêm vào màn hình chính.
+5. Sau khi cài, icon GPP Căn Chiếu xuất hiện ngoài màn hình và mở như một ứng dụng riêng.
 
-CÁCH CÀI
-1. Giải nén thư mục phần mềm vào ổ E: hoặc F:.
-2. Giữ nguyên vị trí thư mục sau khi cài lối tắt.
-3. Bấm đúp CÀI_ĐẶT_LỐI_TẮT.cmd.
-4. Windows tạo:
-   - GPP Căn Chiếu ngoài Desktop.
-   - GPP Căn Chiếu trong Start Menu.
-5. Lối tắt dùng icon logo trắng.
-
-CÁCH MỞ
-- Bấm icon GPP Căn Chiếu ngoài Desktop.
-- Ứng dụng mở bằng Microsoft Edge ở chế độ ứng dụng, không hiện thanh địa chỉ thông thường.
-
-QUAN TRỌNG
-- Không chép toàn bộ phần mềm vào ổ C.
-- Chỉ shortcut rất nhỏ nằm trong Desktop/Start Menu.
-- Phần mềm vẫn chạy từ thư mục bạn đặt ở E: hoặc F:.
-- Nếu di chuyển thư mục phần mềm, hãy chạy lại CÀI_ĐẶT_LỐI_TẮT.cmd.
-
-GỠ LỐI TẮT
-- Chạy GỠ_LỐI_TẮT.cmd.
-- Chỉ xóa shortcut, không xóa phần mềm.
+LƯU Ý
+- PWA cần HTTPS hoặc localhost. Mở file:/// trực tiếp sẽ không cài PWA được.
+- GitHub Pages dùng HTTPS nên phù hợp.
+- Ảnh/video vẫn do người dùng tự chọn và xử lý cục bộ.
+- Giữ nguyên Multi-Zone, 4 góc kéo, tay nắm giữa di chuyển cả khung, HIỆN/ẨN/XÓA từng khung.

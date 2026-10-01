@@ -386,3 +386,5 @@ body.ui-hidden #handleLayer{
 body.ui-hidden .move-handle{
   display:none !important;
 }
+
+.install-app-btn{border-color:#2e806b!important;color:#d9fff4!important;background:linear-gradient(180deg,#15382f,#102a24)!important;font-weight:700}
