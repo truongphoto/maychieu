@@ -1,36 +1,47 @@
-GPP CĂN CHIẾU V1.1.13 – FULL UI HIDE
-==========================================
+GPP CĂN CHIẾU V1.2.0 – OFFICIAL AUDITED PWA
+================================================
 
-NGUYÊN TẮC KHÓA
-ẨN GIAO DIỆN = ẨN 100% GIAO DIỆN.
+ĐÂY LÀ BẢN DỌN SẠCH CẤU TRÚC, KHÔNG VÁ CHỒNG.
 
-KHI ẨN
-- Không logo.
-- Không panel trái.
-- Không nút.
-- Không lưới.
-- Không 4 vòng căn chỉnh.
-- Không nút giữa di chuyển cả khung.
-- Không chữ hướng dẫn.
-- Không dòng “Bấm đúp / chạm 2 lần”.
-- Không cửa sổ cấu hình.
-- Không trạng thái kỹ thuật.
-- Chỉ còn ảnh/video đang chiếu và nền đen ở vùng trống.
+LỖI ĐÃ TÌM THẤY TRONG V1.1.14
+1. index.html nạp js/app.js HAI LẦN.
+   -> sự kiện được đăng ký hai lần.
+   -> bấm đúp có thể ẩn rồi hiện lại ngay nên nhìn như không hoạt động.
+2. index.html thiếu link manifest.webmanifest.
+   -> trình duyệt không có liên kết manifest chuẩn từ trang.
+3. thiếu mobile-web-app-capable / apple-mobile-web-app-capable trong head.
+4. thiếu đăng ký Service Worker trong trang/app.
+5. nút CÀI ỨNG DỤNG không tồn tại trong HTML dù JavaScript có logic cho nó.
+6. CSS tích lũy nhiều rule fullscreen/ui-hidden cũ, có rule chồng nhau.
+7. JavaScript cũ có nhiều lần gán btnHideUI.onclick.
+8. phần V1.1.14 gọi fitStage từ ngoài IIFE nên hàm không nằm trong scope đó.
+9. khi UI ẩn, emptyHint chưa được khóa chắc chắn ở mọi bản trước.
+10. cơ chế PC + mobile có nguy cơ nhận cả pointerup và click tổng hợp trên cảm ứng.
 
-HIỆN LẠI
-- PC: bấm đúp vùng chiếu.
-- Điện thoại: chạm 2 lần nhanh.
-- Thao tác này không có lời nhắc trên màn hình.
+V1.2.0 ĐÃ SỬA
+- chỉ 1 lần nạp app.js.
+- manifest chuẩn, display=fullscreen.
+- meta PWA/mobile đầy đủ.
+- có nút CÀI ỨNG DỤNG.
+- đăng ký Service Worker đúng 1 lần.
+- Service Worker version v1-2-0.
+- navigation ưu tiên mạng để giảm lỗi giữ bản cũ.
+- CSS viết lại sạch.
+- ẨN GIAO DIỆN = ẩn 100%.
+- PC double-click và mobile double-tap tách riêng.
+- khi hiện giao diện lại KHÔNG thoát fullscreen để tránh resize vùng chiếu.
+- tay nắm giữa di chuyển cả khung vẫn giữ nguyên.
+- HIỆN/ẨN/XÓA từng khung vẫn giữ nguyên.
 
-ANDROID PWA
-- Giữ manifest.webmanifest.
-- Giữ service-worker.js.
-- Cache đã tăng lên V1.1.13 để tránh điện thoại giữ giao diện cũ.
-- Khi cập nhật trên GitHub Pages, nên đóng mở lại ứng dụng sau khi trang cập nhật xong.
+CÁCH CÀI ANDROID
+1. Upload toàn bộ nội dung thư mục lên GitHub Pages.
+2. Mở link bằng Chrome.
+3. Cài GPP Căn Chiếu.
+4. Sau khi cài, mở bằng icon ngoài màn hình.
+5. Khi cần trình chiếu: bấm ẨN GIAO DIỆN.
+6. Bấm đúp/chạm 2 lần để gọi lại giao diện.
 
-GIỮ NGUYÊN
-- Multi-Zone.
-- 4 góc kéo.
-- Tay nắm giữa để di chuyển cả khung.
-- HIỆN / ẨN / XÓA từng khung.
-- Cài ứng dụng trên Android bằng PWA.
+LƯU Ý KIỂM THỬ
+- Fullscreen hệ thống của Android phụ thuộc cách trình duyệt/PWA chạy trên từng máy.
+- Bản này đã làm đúng cấu trúc kỹ thuật giống hướng của truyquet:
+  manifest fullscreen + mobile meta + Service Worker + Fullscreen API theo thao tác người dùng.

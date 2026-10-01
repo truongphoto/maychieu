@@ -1,14 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPP Căn Chiếu V1.1.13</title>
-  <link rel="icon" type="image/png" href="assets/icon_trang.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GPP Căn Chiếu">
+
+  <title>GPP Căn Chiếu V1.2.0</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-
 <div class="app-shell">
   <aside class="control-panel">
     <div class="brand-block">
@@ -20,11 +28,12 @@
     </div>
 
     <div class="mobile-top-actions">
-      <button id="btnSetup" class="setup-btn top-tool-btn">CẤU HÌNH</button>
-      <button id="btnHideUI" class="top-tool-btn">ẨN GIAO DIỆN</button>
+      <button id="btnSetup" class="top-tool-btn">CẤU HÌNH</button>
+      <button id="btnInstallApp" class="top-tool-btn install-app-btn" hidden>CÀI ỨNG DỤNG</button>
+      <button id="btnHideUI" class="top-tool-btn primary">ẨN GIAO DIỆN</button>
     </div>
 
-    <section class="panel compact">
+    <section class="panel">
       <div class="panel-head">
         <h2>KHUNG CHIẾU</h2>
         <button id="btnAddZone" class="mini primary">+ THÊM</button>
@@ -32,43 +41,45 @@
       <div id="zoneList" class="zone-list"></div>
     </section>
 
-    <section class="panel compact">
+    <section class="panel">
       <h2>NGUỒN</h2>
       <label class="file-button">
         CHỌN ẢNH / VIDEO
         <input id="fileInput" type="file" accept="image/*,video/*">
       </label>
       <div id="fileInfo" class="status-card">Chưa chọn nội dung</div>
-      <div class="button-row touch-row">
+      <div class="button-row">
         <button id="btnPlay">PHÁT</button>
         <button id="btnPause">TẠM DỪNG</button>
         <button id="btnStop">DỪNG</button>
       </div>
     </section>
 
-    <section class="panel compact">
+    <section class="panel">
       <h2>HIỆU CHỈNH</h2>
-      <label>Độ sáng<input id="brightness" type="range" min="50" max="150" value="100"></label>
-      <div class="button-row touch-row">
+      <label>Độ sáng
+        <input id="brightness" type="range" min="50" max="150" value="100">
+      </label>
+      <div class="button-row">
         <button id="btnRotate">XOAY 90°</button>
         <button id="btnFlipX">LẬT NGANG</button>
         <button id="btnFlipY">LẬT DỌC</button>
       </div>
-      <div class="button-row touch-row">
+      <div class="button-row">
         <button id="btnLock">KHÓA</button>
         <button id="btnVisible">ẨN KHUNG</button>
         <button id="btnResetZone">ĐẶT LẠI</button>
       </div>
     </section>
 
-    <section class="panel compact">
+    <section class="panel">
       <h2>THỨ TỰ & CẤU HÌNH</h2>
-      <div class="button-row touch-row">
+      <div class="button-row">
         <button id="btnLayerUp">ĐƯA LÊN</button>
         <button id="btnLayerDown">ĐƯA XUỐNG</button>
         <button id="btnDuplicate">NHÂN BẢN</button>
       </div>
-      <div class="button-row touch-row">
+      <div class="button-row">
         <button id="btnToggleGrid">ẨN LƯỚI</button>
         <button id="btnSave">LƯU</button>
         <button id="btnLoad">MỞ</button>
@@ -78,11 +89,12 @@
   </aside>
 
   <main class="output-panel">
-<div id="stageHost" class="stage-host">
+    <div id="stageHost" class="stage-host">
       <div id="stage" class="stage">
         <canvas id="glCanvas"></canvas>
         <canvas id="gridCanvas"></canvas>
         <div id="handleLayer"></div>
+
         <div id="emptyHint" class="empty-hint">
           <div class="crosshair"></div>
           <h3>CHỌN ẢNH / VIDEO</h3>
@@ -98,7 +110,7 @@
     <div class="settings-titlebar">
       <div>
         <strong>CẤU HÌNH HỆ THỐNG</strong>
-        <span>Thiết lập vận hành bên trong GPP Căn Chiếu</span>
+        <span>Thiết lập vận hành GPP Căn Chiếu</span>
       </div>
       <button id="btnCloseSettings" class="close-btn">×</button>
     </div>
@@ -118,13 +130,8 @@
         </select>
       </label>
 
-      <label class="check-row">
-        <input id="autoHideGrid" type="checkbox" checked>
-        <span>Tự ẩn lưới khi vào toàn màn hình</span>
-      </label>
-
       <div class="settings-note">
-        Thiết lập này không làm thay đổi vị trí các khung đã căn.
+        Cấu hình không làm thay đổi tọa độ các khung đã căn.
       </div>
     </div>
 
@@ -134,7 +141,6 @@
     </div>
   </div>
 </div>
-<script src="js/app.js"></script>
 
 <script src="js/app.js"></script>
 </body>

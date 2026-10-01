@@ -418,46 +418,8 @@ $("btnSaveSettings").onclick=()=>{
 refreshSetupButton();
 
 
-// ===== V1.1.7: ẨN / HIỆN GIAO DIỆN KHÔNG RESIZE VÙNG CHIẾU =====
-function setUIHidden(hidden){
-  document.body.classList.toggle("ui-hidden",hidden);
 
-  const settingsModal=document.getElementById("settingsModal");
-  if(hidden && settingsModal){
-    settingsModal.hidden=true;
-  }
-
-  const b=$("btnHideUI");
-  if(b) b.textContent="ẨN GIAO DIỆN";
-
-  if(hidden){
-    handleEls.forEach(h=>h.style.display="none");
-    if(moveHandle) moveHandle.style.display="none";
-    const ctx=gridCanvas.getContext("2d");
-    ctx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
-  }else{
-    refreshHandles();
-    queueGridDraw();
-  }
-}
-function toggleUI(){
-  setUIHidden(!document.body.classList.contains("ui-hidden"));
-}
-
-if($("btnHideUI")) $("btnHideUI").onclick=()=>setUIHidden(true);
-
-
-
-
-
-
-
-
-
-
-
-
-// ===== V1.1.10: DOUBLE CLICK PC + DOUBLE TAP MOBILE =====
+// ===== V1.2.0 OFFICIAL: PRESENTATION MODE =====
 function uiToggleExcluded(target){
   return !!(target && target.closest && (
     target.closest(".control-panel") ||
@@ -468,58 +430,170 @@ function uiToggleExcluded(target){
   ));
 }
 
-// PC: dùng click.detail của trình duyệt, ổn định hơn tự đếm pointerup.
-document.addEventListener("click",e=>{
-  if(e.pointerType && e.pointerType!=="mouse") return;
-  if(!document.body.classList.contains("ui-hidden") && uiToggleExcluded(e.target)) return;
+function isInstalledDisplayMode(){
+  return window.matchMedia("(display-mode: fullscreen)").matches ||
+         window.matchMedia("(display-mode: standalone)").matches;
+}
 
-  if(e.detail===2){
-    toggleUI();
-    e.preventDefault();
+function setUIHidden(hidden){
+  document.body.classList.toggle("ui-hidden", hidden);
+
+  if(hidden){
+    const modal=document.getElementById("settingsModal");
+    if(modal) modal.hidden=true;
+    handleEls.forEach(h=>h.style.display="none");
+    if(moveHandle) moveHandle.style.display="none";
+    const ctx=gridCanvas.getContext("2d");
+    ctx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
+  }else{
+    refreshHandles();
+    queueGridDraw();
   }
-},true);
+}
 
-// Điện thoại / tablet: tự nhận 2 chạm vì click.detail không đồng nhất trên mobile.
-let mobileTapTime=0;
-let mobileTapX=0;
-let mobileTapY=0;
+function requestSystemFullscreenFromGesture(){
+  if(isInstalledDisplayMode()) return;
+  if(document.fullscreenElement) return;
+  const el=document.documentElement;
+  if(!el.requestFullscreen) return;
+
+  try{
+    const p=el.requestFullscreen({navigationUI:"hide"});
+    if(p && typeof p.catch==="function") p.catch(()=>{});
+  }catch(e){}
+}
+
+function enterPresentationMode(){
+  requestSystemFullscreenFromGesture();
+  setUIHidden(true);
+}
+
+function showControls(){
+  // Không thoát fullscreen để tránh thay đổi kích thước vùng chiếu.
+  setUIHidden(false);
+}
+
+function toggleControlsFromGesture(){
+  if(document.body.classList.contains("ui-hidden")) showControls();
+  else enterPresentationMode();
+}
+
+const hideBtn=document.getElementById("btnHideUI");
+if(hideBtn){
+  hideBtn.addEventListener("click",e=>{
+    e.preventDefault();
+    enterPresentationMode();
+  });
+}
+
+/* PC */
+let lastPointerType="mouse";
+document.addEventListener("pointerdown",e=>{
+  lastPointerType=e.pointerType||"mouse";
+},{capture:true});
+
+document.addEventListener("click",e=>{
+  if(lastPointerType!=="mouse") return;
+  if(!document.body.classList.contains("ui-hidden") && uiToggleExcluded(e.target)) return;
+  if(e.detail===2){
+    e.preventDefault();
+    toggleControlsFromGesture();
+  }
+},{capture:true});
+
+/* Mobile / tablet */
+let tapTime=0,tapX=0,tapY=0;
 document.addEventListener("pointerup",e=>{
   if(e.pointerType==="mouse") return;
   if(!document.body.classList.contains("ui-hidden") && uiToggleExcluded(e.target)){
-    mobileTapTime=0;
+    tapTime=0;
     return;
   }
 
   const now=performance.now();
-  const dx=e.clientX-mobileTapX;
-  const dy=e.clientY-mobileTapY;
+  const dx=e.clientX-tapX,dy=e.clientY-tapY;
   const near=(dx*dx+dy*dy)<=3600;
 
-  if(mobileTapTime>0 && (now-mobileTapTime)<=500 && near){
-    toggleUI();
-    mobileTapTime=0;
+  if(tapTime>0 && now-tapTime<=500 && near){
     e.preventDefault();
-  }else{
-    mobileTapTime=now;
-    mobileTapX=e.clientX;
-    mobileTapY=e.clientY;
+    toggleControlsFromGesture();
+    tapTime=0;
+    return;
   }
-},true);
 
-// Nút ẨN GIAO DIỆN luôn hoạt động một lần bấm.
-if($("btnHideUI")){
-  $("btnHideUI").onclick=()=>setUIHidden(true);
-}
+  tapTime=now;
+  tapX=e.clientX;
+  tapY=e.clientY;
+},{capture:true});
 
-buildHandles();addZone();fitStage();requestAnimationFrame(render);
+window.addEventListener("resize",()=>{
+  requestAnimationFrame(()=>{
+    try{ fitStage(); }catch(e){}
+  });
+});
+
+window.addEventListener("orientationchange",()=>{
+  setTimeout(()=>{
+    try{ fitStage(); }catch(e){}
+  },180);
+});
+
+buildHandles();
+addZone();
+fitStage();
+requestAnimationFrame(render);
 })();
-// ===== V1.1.12: CÀI ỨNG DỤNG PWA TRÊN ANDROID =====
+
+// ===== V1.2.0 OFFICIAL: PWA INSTALL + SERVICE WORKER =====
 let deferredInstallPrompt=null;
 const installBtn=document.getElementById("btnInstallApp");
-function isStandaloneMode(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;}
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;if(installBtn&&!isStandaloneMode())installBtn.hidden=false;});
-if(installBtn){installBtn.addEventListener("click",async()=>{if(!deferredInstallPrompt){alert("Hãy mở menu trình duyệt và chọn ‘Cài đặt ứng dụng’ hoặc ‘Thêm vào màn hình chính’. ");return;}deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice;}catch(e){}deferredInstallPrompt=null;installBtn.hidden=true;});}
-window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;if(installBtn)installBtn.hidden=true;});
-if(isStandaloneMode()&&installBtn)installBtn.hidden=true;
 
-// ===== V1.1.13: ẨN GIAO DIỆN = ẨN 100% =====
+function isInstalledPwa(){
+  return window.matchMedia("(display-mode: fullscreen)").matches ||
+         window.matchMedia("(display-mode: standalone)").matches ||
+         window.navigator.standalone===true;
+}
+
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  if(installBtn && !isInstalledPwa()) installBtn.hidden=false;
+});
+
+if(installBtn){
+  installBtn.addEventListener("click",async()=>{
+    if(!deferredInstallPrompt){
+      alert("Nếu chưa xuất hiện hộp cài đặt, hãy mở menu trình duyệt và chọn “Cài đặt ứng dụng” hoặc “Thêm vào màn hình chính”.");
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    try{ await deferredInstallPrompt.userChoice; }catch(e){}
+    deferredInstallPrompt=null;
+    installBtn.hidden=true;
+  });
+}
+
+window.addEventListener("appinstalled",()=>{
+  deferredInstallPrompt=null;
+  if(installBtn) installBtn.hidden=true;
+});
+
+if(isInstalledPwa() && installBtn) installBtn.hidden=true;
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register("./service-worker.js");
+      try{ await reg.update(); }catch(e){}
+
+      let reloading=false;
+      navigator.serviceWorker.addEventListener("controllerchange",()=>{
+        if(reloading) return;
+        reloading=true;
+        location.reload();
+      });
+    }catch(e){
+      console.warn("Không đăng ký được Service Worker:",e);
+    }
+  });
+}
